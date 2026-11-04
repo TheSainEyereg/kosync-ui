@@ -1,0 +1,13 @@
+.git
+.agents
+.codex
+.vscode
+node_modules
+.svelte-kit
+build
+dist
+coverage
+.env
+.env.*
+!.env.example
+*.log
