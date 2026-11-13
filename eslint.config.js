@@ -9,6 +9,10 @@ const arrowDeclaration = {
 	selector: ":matches(VariableDeclaration:has(> VariableDeclarator[init.type='ArrowFunctionExpression']), ExportNamedDeclaration:has(> VariableDeclaration > VariableDeclarator[init.type='ArrowFunctionExpression']))"
 };
 
+const standaloneExport = {
+	selector: "ExportNamedDeclaration[declaration=null], ExportAllDeclaration, ExportDefaultDeclaration[declaration.type='Identifier']"
+};
+
 const multilineVariables = ["multiline-const", "multiline-let"];
 
 export default defineConfig(
@@ -101,7 +105,9 @@ export default defineConfig(
 					blankLine: "always",
 					prev: { selector: "SwitchCase[consequent.length>0]" },
 					next: ["case", "default"]
-				}
+				},
+				{ blankLine: "always", prev: "*", next: standaloneExport },
+				{ blankLine: "any", prev: standaloneExport, next: standaloneExport }
 			]
 		}
 	},
