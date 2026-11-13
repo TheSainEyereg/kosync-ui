@@ -9,6 +9,22 @@ const arrowDeclaration = {
 	selector: ":matches(VariableDeclaration:has(> VariableDeclarator[init.type='ArrowFunctionExpression']), ExportNamedDeclaration:has(> VariableDeclaration > VariableDeclarator[init.type='ArrowFunctionExpression']))"
 };
 
+const typeOrInterfaceSelector = ":matches(TSTypeAliasDeclaration, TSInterfaceDeclaration)";
+
+const typeOrInterfaceDeclaration = {
+	selector: `${typeOrInterfaceSelector}, :matches(ExportNamedDeclaration, ExportDefaultDeclaration):has(> ${typeOrInterfaceSelector})`
+};
+
+const typeDeclarations = [
+	typeOrInterfaceDeclaration,
+	{ selector: "TSEnumDeclaration, ExportNamedDeclaration:has(> TSEnumDeclaration)" }
+];
+
+const multilineTypeDeclaration = {
+	...typeOrInterfaceDeclaration,
+	lineMode: "multiline"
+};
+
 const standaloneExport = {
 	selector: "ExportNamedDeclaration[declaration=null], ExportAllDeclaration, ExportDefaultDeclaration[declaration.type='Identifier']"
 };
@@ -97,6 +113,11 @@ export default defineConfig(
 					next: "*"
 				},
 				{ blankLine: "always", prev: "*", next: ["return", "throw"] },
+				{ blankLine: "always", prev: "*", next: typeDeclarations },
+				{ blankLine: "always", prev: typeDeclarations, next: "*" },
+				{ blankLine: "any", prev: typeDeclarations, next: typeDeclarations },
+				{ blankLine: "always", prev: "*", next: multilineTypeDeclaration },
+				{ blankLine: "always", prev: multilineTypeDeclaration, next: "*" },
 				{ blankLine: "always", prev: "*", next: multilineVariables },
 				{ blankLine: "always", prev: multilineVariables, next: "*" },
 				{ blankLine: "always", prev: "*", next: arrowDeclaration },
