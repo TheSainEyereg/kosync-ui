@@ -7,7 +7,7 @@ import ts from "typescript-eslint";
 
 export default defineConfig(
 	{
-		ignores: ['**/node_modules/**', '**/.svelte-kit/**', '**/build/**', '**/dist/**']
+		ignores: ["**/node_modules/**", "**/.svelte-kit/**", "**/build/**", "**/dist/**"]
 	},
 	js.configs.recommended,
 	ts.configs.recommended,
@@ -20,7 +20,7 @@ export default defineConfig(
 	{
 		files: ["**/*.svelte", "**/*.svelte.ts", "**/*.svelte.js"],
 		languageOptions: {
-			parserOptions: { parser: ts.parser, extraFileExtensions: ['.svelte'] }
+			parserOptions: { parser: ts.parser, extraFileExtensions: [".svelte"] }
 		}
 	},
 	{
@@ -71,6 +71,21 @@ export default defineConfig(
 			],
 			"@stylistic/padding-line-between-statements": [
 				"error",
+				{ blankLine: "always", prev: "import", next: "*" },
+				{ blankLine: "any", prev: "import", next: "import" },
+				{ blankLine: "always", prev: "*", next: ["const", "let"] },
+				{ blankLine: "always", prev: ["const", "let"], next: "*" },
+				{ blankLine: "any", prev: ["const", "let"], next: ["const", "let"] },
+				{
+					blankLine: "always",
+					prev: "*",
+					next: ["if", "for", "while", "do", "switch", "try", "function", "class"]
+				},
+				{
+					blankLine: "always",
+					prev: ["if", "for", "while", "do", "switch", "try", "function", "class"],
+					next: "*"
+				},
 				{ blankLine: "always", prev: "*", next: "return" }
 			]
 		}
