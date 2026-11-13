@@ -67,7 +67,7 @@ export default defineConfig(
 			// "@typescript-eslint/no-unsafe-declaration-merging": "off",
 			// "@typescript-eslint/no-namespace": "off",
 			"no-cond-assign": "off",
-			// "no-fallthrough": "off",
+			"no-fallthrough": "off",
 			// "no-case-declarations": "off",
 			"curly": ["error", "multi"],
 			"arrow-body-style": ["error", "as-needed"],
