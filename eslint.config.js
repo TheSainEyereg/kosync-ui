@@ -5,6 +5,12 @@ import svelte from "eslint-plugin-svelte";
 import globals from "globals";
 import ts from "typescript-eslint";
 
+const arrowDeclaration = {
+	selector: ":matches(VariableDeclaration:has(> VariableDeclarator[init.type='ArrowFunctionExpression']), ExportNamedDeclaration:has(> VariableDeclaration > VariableDeclarator[init.type='ArrowFunctionExpression']))"
+};
+
+const multilineVariables = ["multiline-const", "multiline-let"];
+
 export default defineConfig(
 	{
 		ignores: ["**/node_modules/**", "**/.svelte-kit/**", "**/build/**", "**/dist/**"]
@@ -86,7 +92,16 @@ export default defineConfig(
 					prev: ["if", "for", "while", "do", "switch", "try", "function", "class"],
 					next: "*"
 				},
-				{ blankLine: "always", prev: "*", next: "return" }
+				{ blankLine: "always", prev: "*", next: ["return", "throw"] },
+				{ blankLine: "always", prev: "*", next: multilineVariables },
+				{ blankLine: "always", prev: multilineVariables, next: "*" },
+				{ blankLine: "always", prev: "*", next: arrowDeclaration },
+				{ blankLine: "always", prev: arrowDeclaration, next: "*" },
+				{
+					blankLine: "always",
+					prev: { selector: "SwitchCase[consequent.length>0]" },
+					next: ["case", "default"]
+				}
 			]
 		}
 	},
